@@ -67,3 +67,14 @@ Route::get('/siswa-by-kelas/{kelasId}', function ($kelasId) {
     $siswas = Siswa::where('kelas_id', $kelasId)->get(['id', 'nama']);
     return response()->json($siswas);
 });
+
+
+Route::middleware(['auth', 'role:guru'])->group(function () {
+    Route::get('/nilai/create', [NilaiController::class, 'create'])->name('nilai.create');
+    Route::post('/nilai/store', [NilaiController::class, 'store'])->name('nilai.store');
+});
+
+
+Route::middleware(['auth', 'role:guru,siswa'])->group(function () {
+    Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai.index');
+});
