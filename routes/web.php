@@ -9,6 +9,7 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Middleware\RoleMiddleware;
+use App\Models\Siswa;
 
 Route::get('/', [AppController::class, 'index']);
 
@@ -49,3 +50,20 @@ Route::middleware('auth')->group(function () {
 Route::resource('/siswa', SiswaController::class)->middleware('auth');
 Route::resource('/guru', GuruController::class)->middleware('auth');
 Route::resource('/nilai', NilaiController::class)->middleware('auth');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai.index');
+    Route::get('/nilai/create', [NilaiController::class, 'create'])->name('nilai.create');
+    Route::post('/nilai', [NilaiController::class, 'store'])->name('nilai.store');
+});
+
+Route::get('/get-siswa-by-kelas/{kelas_id}', function ($kelas_id) {
+    $siswas = \App\Models\Siswa::where('kelas_id', $kelas_id)->get(['id', 'nama']);
+    return response()->json($siswas);
+});
+
+Route::get('/siswa-by-kelas/{kelasId}', function ($kelasId) {
+    $siswas = Siswa::where('kelas_id', $kelasId)->get(['id', 'nama']);
+    return response()->json($siswas);
+});

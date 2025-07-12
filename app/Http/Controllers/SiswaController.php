@@ -48,6 +48,12 @@ class SiswaController extends Controller
         // return view('siswa.index', compact('siswa'));
     }
 
+    public function getByKelas($kelasId)
+    {
+        $siswas = Siswa::where('kelas_id', $kelasId)->get(['id', 'nama']);
+        return response()->json($siswas);
+    }
+
     public function create()
     {
         // hanya admin

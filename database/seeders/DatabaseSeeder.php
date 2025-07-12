@@ -19,6 +19,10 @@ class DatabaseSeeder extends Seeder
                 UserSeeder::class
             ]
         );
+
+        $this->call(MapelSeeder::class);
+
+
         // User::factory(10)->create();
 
         // User::factory()->create([
