@@ -124,8 +124,8 @@
     {{-- footer --}}
     <section class="bg-light border-top py-3">
         <div class="container-py-3 text-center">
-            <h5>Project UTS Pemrograman Web 2</h5>
-            <h6>Adi Supriatna | 22552011132 | TIF-K22</h6>
+            <h5>Project UAS Pemrograman Web 2 - TIF K22 - Kelompok 2</h5>
+            <h6>Adi Supriatna - 22552011132 | Zaidan Fakhrudin - 22552011162</h6>
             &copy; 2025
         </div>
     </section>
