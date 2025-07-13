@@ -10,7 +10,13 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <a href="{{ route('nilai.create') }}" class="btn btn-primary mb-3">+ Input Nilai</a>
+        @php
+            $userRole = Auth::user()->role;
+        @endphp
+
+        @if ($userRole === 'guru' || $userRole === 'admin')
+            <a href="{{ route('nilai.create') }}" class="btn btn-primary">Input Nilai</a>
+        @endif
 
         <table class="table table-bordered table-striped">
             <thead>

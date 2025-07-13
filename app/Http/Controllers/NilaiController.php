@@ -35,27 +35,35 @@ class NilaiController extends Controller
     {
         $request->validate([
             'siswa_id' => 'required',
-            'mapel_id' => 'required',
-            'nilai' => 'required|integer|min:0|max:100',
+            'mapel_id' => 'required|array',
+            'nilai' => 'required|array',
             'semester' => 'required',
             'tahun_ajaran' => 'required',
         ]);
 
-        Nilai::updateOrCreate(
-            [
-                'siswa_id' => $request->siswa_id,
-                'mapel_id' => $request->mapel_id,
-                'semester' => $request->semester,
-                'tahun_ajaran' => $request->tahun_ajaran,
-            ],
-            [
-                'guru_id' => Auth::id(),
-                'nilai' => $request->nilai,
-            ]
-        );
+        foreach ($request->mapel_id as $index => $mapelId) {
+            $nilai = $request->nilai[$index];
 
-        return redirect()->route('nilai.index')->with('success', 'Nilai berhasil disimpan.');
+            // Validasi nilai jika diperlukan
+            if ($nilai !== null && $nilai !== '') {
+                Nilai::updateOrCreate(
+                    [
+                        'siswa_id' => $request->siswa_id,
+                        'mapel_id' => $mapelId,
+                        'semester' => $request->semester,
+                        'tahun_ajaran' => $request->tahun_ajaran,
+                    ],
+                    [
+                        'guru_id' => Auth::id(),
+                        'nilai' => $nilai,
+                    ]
+                );
+            }
+        }
+
+        return redirect()->route('nilai.index')->with('success', 'Semua nilai berhasil disimpan.');
     }
+
 
     public function getSiswaByKelas($kelas_id)
     {

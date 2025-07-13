@@ -25,19 +25,17 @@
             </div>
 
 
-            <div class="mb-3">
-                <label for="mapel_id" class="form-label">Mata Pelajaran</label>
-                <select name="mapel_id" class="form-control" required>
-                    <option value="">-- Pilih Mapel --</option>
-                    @foreach ($mapels as $mapel)
-                        <option value="{{ $mapel->id }}">{{ $mapel->nama_mapel }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="nilai" class="form-label">Nilai</label>
-                <input type="number" name="nilai" class="form-control" min="0" max="100" required>
+            <div class="row">
+                @foreach ($mapels as $mapel)
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">{{ $mapel->nama_mapel }}</label>
+                            <input type="hidden" name="mapel_id[]" value="{{ $mapel->id }}">
+                            <input type="number" name="nilai[]" class="form-control"
+                                placeholder="Isi Nilai {{ $mapel->nama_mapel }}" min="0" max="100">
+                        </div>
+                    </div>
+                @endforeach
             </div>
 
             <div class="mb-3">
