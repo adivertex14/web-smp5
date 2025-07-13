@@ -34,7 +34,7 @@
                         <ul class="dropdown-menu" aria-labelledby="dataSekolahDropdown">
                             <li><a class="dropdown-item" href="{{ route('siswa.index') }}">Data Siswa</a></li>
                             <li><a class="dropdown-item" href="{{ route('guru.index') }}">Data Guru</a></li>
-                            <li><a class="dropdown-item" href="{{ route('nilai.index') }}">Nilai Rapor</a></li>
+                            <li><a class="dropdown-item" href="{{ route('nilai.index') }}">Nilai Siswa</a></li>
                         </ul>
                     </li>
                 @endauth
@@ -43,15 +43,34 @@
             </ul>
             <div class="d-flex">
                 @auth
-                    <form action="/logout" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-dark">Logout</button>
-                    </form>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="userDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ Auth::user()->name }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            @if (Auth::user()->role === 'admin')
+                                <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
+                            @elseif (Auth::user()->role === 'guru')
+                                <li><a class="dropdown-item" href="{{ route('guru.dashboard') }}">Dashboard Guru</a></li>
+                            @elseif (Auth::user()->role === 'siswa')
+                                <li><a class="dropdown-item" href="{{ route('siswa.dashboard') }}">Dashboard Siswa</a></li>
+                            @endif
+                            <li>
+                                <form action="/logout" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 @else
-                    {{-- <button class="btn btn-danger">Login</button> --}}
-                    <a href="{{ route('login') }}" class="btn btn-danger">Login</a>
+                    <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
                 @endauth
             </div>
+
+
+
         </div>
     </div>
 </nav>
